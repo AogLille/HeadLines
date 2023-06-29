@@ -65,16 +65,22 @@ export default {
 		// 添加频道
 		async addChannel(channel) {
 			this.channels.push(channel)
-			//将添加的频道进行保存
-			try {
-				await addUserChannelAPI([
-					{
-						id: channel.id, // 频道的id
-						seq: this.channels.length, // 频道的序号
-					},
-				])
-			} catch (error) {
-				// 如果API接口失效，如token认证失败等
+			// 数据持久化处理
+			//如果是登录状态
+			if (this.$store.user) {
+				try {
+					await addUserChannelAPI([
+						{
+							id: channel.id, // 频道的id
+							seq: this.channels.length, // 频道的序号
+						},
+					])
+				} catch (error) {
+					console.log(error)
+				}
+			}
+			// 如果不是登录状态
+			else {
 				setItem('CHANNELS', this.channels)
 			}
 		},
@@ -90,11 +96,17 @@ export default {
 					console.log(this.activeIndex)
 					this.$emit('change-active', this.activeIndex - 1, true)
 				}
-				// 数据持久化
-				try {
-					await deleteUserChannelAPI(channel.id)
-				} catch (error) {
-					// 如果出现token失效等问题，则在本地进行
+				// 数据持久化处理
+				// 如果是登录状态
+				if (this.$store.user) {
+					try {
+						await deleteUserChannelAPI(channel.id)
+					} catch (error) {
+						console.log(error)
+					}
+				}
+				// 如果不是登录状态
+				else {
 					setItem('CHANNELS', this.channels)
 				}
 			} else {

@@ -7,7 +7,10 @@ import 'amfe-flexible' //动态设置rem基准值
 import Vant from 'vant'
 import 'vant/lib/index.css'
 import '@/styles/github-markdown.css'
+import '@/utils/dayjs'
+import { Uploader } from 'vant';
 
+Vue.use(Uploader);
 Vue.use(Vant)
 
 Vue.config.productionTip = false

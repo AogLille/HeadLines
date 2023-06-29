@@ -1,7 +1,7 @@
 <template>
 	<div class="layout-container">
 		<!-- 子路由出口 -->
-		<router-view />
+		<keep-alive> <router-view /></keep-alive>
 		<!-- 底部导航栏 -->
 		<van-tabbar route>
 			<van-tabbar-item to="/home" exact>
@@ -20,11 +20,15 @@
 <script>
 import { mapState } from 'vuex'
 export default {
+	name: 'LayoutIndex',
 	data() {
 		return {}
 	},
 	computed: {
 		...mapState(['user']),
+	},
+	mounted() {
+		this.$store.commit('addCachePage', 'LayoutIndex')
 	},
 }
 </script>

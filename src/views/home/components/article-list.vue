@@ -1,6 +1,6 @@
 <template>
 	<!-- 文章列表组件 -->
-	<div class="article-list">
+	<div class="article-list" ref="list">
 		<van-pull-refresh v-model="refreshing" @refresh="onRefresh" :success-text="refreshText" success-duration="2000">
 			<van-list v-model="loading" :error.sync="error" error-text="请求失败，点击重新加载" :finished="finished" finished-text="没有更多了" @load="onLoad"> <Article v-for="(article, index) in list" :key="index" :article="article" /> </van-list
 		></van-pull-refresh>
@@ -30,6 +30,16 @@ export default {
 			error: false,
 			refreshing: false,
 			refreshText: '',
+			scrollTop: 0,
+		}
+	},
+	activated() {
+		this.$refs.list.scrollTop = this.scrollTop
+	},
+	mounted() {
+		const list = this.$refs.list
+		list.onscroll = () => {
+			this.scrollTop = list.scrollTop
 		}
 	},
 	methods: {

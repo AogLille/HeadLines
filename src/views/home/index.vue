@@ -33,7 +33,7 @@
 <script>
 import { getUserChannelsAPI } from '@/api'
 import { mapState } from 'vuex'
-import { getItem } from '@/utils/storage'
+import { setItem, getItem } from '@/utils/storage'
 import articleList from './components/article-list.vue'
 import editChannels from './components/editChannels.vue'
 export default {
@@ -44,12 +44,12 @@ export default {
 	data() {
 		return {
 			active: 0, //当前被选中的频道序号
-			channels: [], //频道列表\
+			channels: [], //频道列表
 			show: false, //编辑频道的弹出层
 		}
 	},
 	computed: {
-		...mapState['user'],
+		...mapState(['user']),
 	},
 	created() {
 		this.loadChannels()
@@ -57,6 +57,7 @@ export default {
 	methods: {
 		// 加载频道信息的方法
 		async loadChannels() {
+			// 如果登录
 			if (this.user) {
 				try {
 					let {
@@ -69,16 +70,20 @@ export default {
 					this.$toast('获取频道失败')
 				}
 			} else {
+				// 如果未登录
 				let userChannels = getItem('CHANNELS')
+				// 如果本来存在频道记录
 				if (userChannels) {
 					this.channels = userChannels
 				} else {
+					// 如果本地不存在频道记录
 					let {
 						data: {
 							data: { channels },
 						},
 					} = await getUserChannelsAPI()
 					this.channels = channels
+					setItem('CHANNELS', channels)
 				}
 			}
 		},

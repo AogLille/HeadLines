@@ -16,7 +16,7 @@
 					<span class="name">{{ userInfo.name }}</span>
 				</div>
 				<div class="edit-btn">
-					<van-button type="default" size="mini" round>编辑资料</van-button>
+					<van-button type="default" size="mini" round :to="{ path: '/user/edit' }">编辑资料</van-button>
 				</div>
 			</div>
 			<div class="data-states">
@@ -51,14 +51,14 @@
 				</template>
 			</van-grid-item>
 		</van-grid>
-		<van-cell title="消息通知" is-link />
-		<van-cell title="小智同学" is-link class="mb-9" />
+		<van-cell title="消息通知" is-link/>
+		<van-cell title="小智同学" is-link class="mb-9"  to="/user/chat"/>
 		<van-cell v-if="user" title="退出登录" class="logout-btn" @click="logout" />
 	</div>
 </template>
 
 <script>
-import { mapState,mapMutations } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import { getUserInfoAPI } from '@/api'
 
 export default {
@@ -89,10 +89,7 @@ export default {
 					data: { data },
 				} = await getUserInfoAPI()
 				this.userInfo = data
-				console.log(data)
 			} catch (err) {
-				this.$toast('获取用户信息失败，请重新登录')
-				this.setUser(null)
 			}
 		},
 	},

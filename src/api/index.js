@@ -3,6 +3,7 @@ import { getSms, login } from './login'
 import { getUserInfo, getUserChannels, getArticleList, getAllChannels, addUserChannel, deleteUserChannel } from './home'
 import { getSuggestion, getResults } from './search'
 import { getArticle,following,cancelFollowing,dianzan,cancelDianzan,star,cancelStar,getArticleComments,dianzanCommnets,cancelDianzanCommnets,postComment } from './articles'
+import { getUser,editUser,updateAvator} from './user'
 
 // 登录界面涉及的接口
 export const getSmsAPI = getSms
@@ -32,3 +33,8 @@ export const getArticleCommentsAPI = getArticleComments
 export const dianzanCommnetsAPI = dianzanCommnets
 export const cancelDianzanCommnetsAPI = cancelDianzanCommnets
 export const postCommentAPI = postComment
+
+// 用户资料页面涉及的接口
+export const getUserAPI = getUser
+export const editUserAPI = editUser
+export const updateAvatorAPI = updateAvator

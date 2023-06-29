@@ -40,8 +40,8 @@ export default {
 	name: 'LoginPage',
 	data() {
 		return {
-			mobile: '', //手机号
-			code: '', //验证码
+			mobile: '13612341234', //手机号
+			code: '246810', //验证码
 			time: 60 * 1000, //发送验证码倒计时的时间
 			isTimeShow: false, //倒计时是否显示
 			// 下面是表单的所有验证规则
@@ -103,7 +103,8 @@ export default {
 				console.log('登录成功', data)
 				this.$store.commit('setUser', data) //将用户信息存入,vuex(token和retoken)-----注意要同时存入本地存储,实现数据持久化
 				this.$toast.success('登录成功')
-				this.$router.push('/home')
+				this.$store.commit('removeCachePage','LayoutIndex')
+				this.$router.push(this.$route.query.returnPage||'/')
 			} catch (err) {
 				if (err.response.status === 400) {
 					console.log(err)
